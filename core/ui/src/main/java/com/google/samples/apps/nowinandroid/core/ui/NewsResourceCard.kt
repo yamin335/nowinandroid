@@ -279,14 +279,10 @@ fun NewsResourceTopics(
     ) {
         for (topic in topics) {
             NiaTopicTag(
-                expanded = expandedTopicId == topic.id,
                 followed = true, // ToDo: Check if topic is followed
-                onDropMenuToggle = { show ->
-                    expandedTopicId = if (show) topic.id else null
+                onClick = {
+                    // Navigate to browse topic
                 },
-                onFollowClick = { }, // ToDo
-                onUnfollowClick = { }, // ToDo
-                onBrowseClick = { }, // ToDo
                 text = { Text(text = topic.name.uppercase(Locale.getDefault())) }
             )
         }
