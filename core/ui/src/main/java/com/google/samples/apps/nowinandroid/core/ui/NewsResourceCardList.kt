@@ -41,6 +41,7 @@ fun <T> LazyListScope.newsResourceCardItems(
     isBookmarkedMapper: (item: T) -> Boolean,
     onToggleBookmark: (item: T) -> Unit,
     onItemClick: ((item: T) -> Unit)? = null,
+    onTopicClicked: (item: T) -> Unit,
     itemModifier: Modifier = Modifier,
 ) = items(
     items = items,
@@ -61,7 +62,8 @@ fun <T> LazyListScope.newsResourceCardItems(
                     else -> onItemClick(item)
                 }
             },
-            modifier = itemModifier
+            modifier = itemModifier,
+            onTopicClicked = { }
         )
     },
 )

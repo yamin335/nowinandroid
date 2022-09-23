@@ -18,6 +18,7 @@ package com.google.samples.apps.nowinandroid.core.ui
 
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.wrapContentSize
@@ -81,6 +82,7 @@ fun LazyGridScope.newsFeed(
                 NewsResourceCardExpanded(
                     newsResource = saveableNewsResource.newsResource,
                     isBookmarked = saveableNewsResource.isSaved,
+                    onTopicClicked = { Log.i("Caren", "Clicked on topic") },
                     onClick = { ContextCompat.startActivity(context, launchResourceIntent, null) },
                     onToggleBookmark = {
                         onNewsResourcesCheckedChanged(

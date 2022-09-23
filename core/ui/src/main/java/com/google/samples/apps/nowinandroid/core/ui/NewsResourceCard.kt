@@ -82,6 +82,7 @@ fun NewsResourceCardExpanded(
     newsResource: NewsResource,
     isBookmarked: Boolean,
     onToggleBookmark: () -> Unit,
+    onTopicClicked: (topicId: String) -> Unit,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -123,7 +124,7 @@ fun NewsResourceCardExpanded(
                     Spacer(modifier = Modifier.height(12.dp))
                     NewsResourceShortDescription(newsResource.content)
                     Spacer(modifier = Modifier.height(12.dp))
-                    NewsResourceTopics(newsResource.topics)
+                    NewsResourceTopics(newsResource.topics, onTopicClicked)
                 }
             }
         }
@@ -267,12 +268,9 @@ fun NewsResourceShortDescription(
 @Composable
 fun NewsResourceTopics(
     topics: List<Topic>,
+    onTopicClicked: (topicId: String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    // Store the ID of the Topic which has its "following" menu expanded, if any.
-    // To avoid UI confusion, only one topic can have an expanded menu at a time.
-    var expandedTopicId by remember { mutableStateOf<String?>(null) }
-
     Row(
         modifier = modifier.horizontalScroll(rememberScrollState()), // causes narrow chips
         horizontalArrangement = Arrangement.spacedBy(4.dp),
@@ -280,9 +278,7 @@ fun NewsResourceTopics(
         for (topic in topics) {
             NiaTopicTag(
                 followed = true, // ToDo: Check if topic is followed
-                onClick = {
-                    // Navigate to browse topic
-                },
+                onClick = { onTopicClicked(topic.id) },
                 text = { Text(text = topic.name.uppercase(Locale.getDefault())) }
             )
         }
@@ -318,7 +314,8 @@ fun ExpandedNewsResourcePreview() {
                 newsResource = previewNewsResources[0],
                 isBookmarked = true,
                 onToggleBookmark = {},
-                onClick = {}
+                onClick = {},
+                onTopicClicked = {}
             )
         }
     }
