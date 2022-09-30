@@ -50,7 +50,13 @@ fun NiaNavHost(
         startDestination = startDestination,
         modifier = modifier,
     ) {
-        forYouGraph()
+        forYouGraph(
+            navigateToTopic = {
+                onNavigateToDestination(
+                    TopicDestination, TopicDestination.createNavigationRoute(it)
+                )
+            },
+        )
         bookmarksGraph()
         interestsGraph(
             navigateToTopic = {

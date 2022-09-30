@@ -52,6 +52,7 @@ fun TopicsTabContent(
                     following = followableTopic.isFollowed,
                     description = followableTopic.topic.shortDescription,
                     topicImageUrl = followableTopic.topic.imageUrl,
+                    // Caren -> onClick for topics implemented here
                     onClick = { onTopicClick(followableTopic.topic.id) },
                     onFollowButtonClick = { onFollowButtonClick(followableTopic.topic.id, it) }
                 )

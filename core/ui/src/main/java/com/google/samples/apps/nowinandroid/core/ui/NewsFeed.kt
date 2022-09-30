@@ -56,6 +56,7 @@ fun LazyGridScope.newsFeed(
     feedState: NewsFeedUiState,
     showLoadingUIIfLoading: Boolean,
     @StringRes loadingContentDescription: Int,
+    navigateToTopic: (String) -> Unit,
     onNewsResourcesCheckedChanged: (String, Boolean) -> Unit,
 ) {
     when (feedState) {
@@ -82,7 +83,7 @@ fun LazyGridScope.newsFeed(
                 NewsResourceCardExpanded(
                     newsResource = saveableNewsResource.newsResource,
                     isBookmarked = saveableNewsResource.isSaved,
-                    onTopicClicked = { onTopicClicked(it) },
+                    onTopicClicked = { navigateToTopic(it) },
                     onClick = { ContextCompat.startActivity(context, launchResourceIntent, null) },
                     onToggleBookmark = {
                         onNewsResourcesCheckedChanged(
@@ -94,10 +95,6 @@ fun LazyGridScope.newsFeed(
             }
         }
     }
-}
-
-fun onTopicClicked(id: String) {
-    Log.i("Caren", "Topic clicked: $id")
 }
 
 /**
@@ -129,7 +126,8 @@ fun NewsFeedLoadingPreview() {
                 feedState = NewsFeedUiState.Loading,
                 showLoadingUIIfLoading = true,
                 loadingContentDescription = 0,
-                onNewsResourcesCheckedChanged = { _, _ -> }
+                onNewsResourcesCheckedChanged = { _, _ -> },
+                navigateToTopic = { }
             )
         }
     }
@@ -149,7 +147,8 @@ fun NewsFeedContentPreview() {
                 ),
                 showLoadingUIIfLoading = true,
                 loadingContentDescription = 0,
-                onNewsResourcesCheckedChanged = { _, _ -> }
+                onNewsResourcesCheckedChanged = { _, _ -> },
+                navigateToTopic = { }
             )
         }
     }

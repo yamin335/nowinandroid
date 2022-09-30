@@ -18,6 +18,7 @@ package com.google.samples.apps.nowinandroid.feature.foryou.navigation
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import androidx.navigation.navigation
 import com.google.samples.apps.nowinandroid.core.navigation.NiaNavigationDestination
 import com.google.samples.apps.nowinandroid.feature.foryou.ForYouRoute
 
@@ -26,8 +27,15 @@ object ForYouDestination : NiaNavigationDestination {
     override val destination = "for_you_destination"
 }
 
-fun NavGraphBuilder.forYouGraph() {
-    composable(route = ForYouDestination.route) {
-        ForYouRoute()
+fun NavGraphBuilder.forYouGraph(
+    navigateToTopic: (String) -> Unit
+) {
+    navigation(
+        route = ForYouDestination.route,
+        startDestination = ForYouDestination.destination
+    ) {
+        composable(route = ForYouDestination.route) {
+            ForYouRoute()
+        }
     }
 }

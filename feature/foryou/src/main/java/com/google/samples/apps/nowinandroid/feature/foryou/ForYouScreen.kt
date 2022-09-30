@@ -96,6 +96,7 @@ import com.google.samples.apps.nowinandroid.core.ui.newsFeed
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun ForYouRoute(
+    navigateToTopic: (String) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: ForYouViewModel = hiltViewModel()
 ) {
@@ -108,6 +109,7 @@ fun ForYouRoute(
         onAuthorCheckedChanged = viewModel::updateAuthorSelection,
         saveFollowedTopics = viewModel::saveFollowedInterests,
         onNewsResourcesCheckedChanged = viewModel::updateNewsResourceSaved,
+        navigateToTopic = navigateToTopic,
         modifier = modifier
     )
 }
@@ -121,6 +123,7 @@ fun ForYouScreen(
     onAuthorCheckedChanged: (String, Boolean) -> Unit,
     saveFollowedTopics: () -> Unit,
     onNewsResourcesCheckedChanged: (String, Boolean) -> Unit,
+    navigateToTopic: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Scaffold(
@@ -203,6 +206,7 @@ fun ForYouScreen(
                 showLoadingUIIfLoading =
                 interestsSelectionState !is ForYouInterestsSelectionUiState.Loading,
                 onNewsResourcesCheckedChanged = onNewsResourcesCheckedChanged,
+                navigateToTopic = navigateToTopic,
                 loadingContentDescription = R.string.for_you_loading
             )
 
