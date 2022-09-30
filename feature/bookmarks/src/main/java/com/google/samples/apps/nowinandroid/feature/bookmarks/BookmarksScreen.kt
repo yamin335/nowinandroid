@@ -99,7 +99,8 @@ fun BookmarksScreen(
                 feedState = feedState,
                 onNewsResourcesCheckedChanged = { id, _ -> removeFromBookmarks(id) },
                 showLoadingUIIfLoading = true,
-                loadingContentDescription = R.string.saved_loading
+                loadingContentDescription = R.string.saved_loading,
+                navigateToTopic = { } // ToDo
             )
 
             item(span = { GridItemSpan(maxLineSpan) }) {

@@ -16,6 +16,7 @@
 
 package com.google.samples.apps.nowinandroid.feature.foryou.navigation
 
+import android.net.Uri
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
@@ -25,6 +26,14 @@ import com.google.samples.apps.nowinandroid.feature.foryou.ForYouRoute
 object ForYouDestination : NiaNavigationDestination {
     override val route = "for_you_route"
     override val destination = "for_you_destination"
+
+    /**
+     * Creates destination route for a topicId that could include special characters
+     */
+    fun createNavigationRoute(topicIdArg: String): String {
+        val encodedId = Uri.encode(topicIdArg)
+        return "foryou_route/$encodedId"
+    }
 }
 
 fun NavGraphBuilder.forYouGraph(
@@ -35,7 +44,7 @@ fun NavGraphBuilder.forYouGraph(
         startDestination = ForYouDestination.destination
     ) {
         composable(route = ForYouDestination.route) {
-            ForYouRoute()
+            ForYouRoute(navigateToTopic = navigateToTopic)
         }
     }
 }

@@ -428,7 +428,8 @@ fun ForYouScreenPopulatedFeed() {
                 onTopicCheckedChanged = { _, _ -> },
                 onAuthorCheckedChanged = { _, _ -> },
                 saveFollowedTopics = {},
-                onNewsResourcesCheckedChanged = { _, _ -> }
+                onNewsResourcesCheckedChanged = { _, _ -> },
+                navigateToTopic = { }
             )
         }
     }
@@ -452,7 +453,8 @@ fun ForYouScreenTopicSelection() {
                 onTopicCheckedChanged = { _, _ -> },
                 onAuthorCheckedChanged = { _, _ -> },
                 saveFollowedTopics = {},
-                onNewsResourcesCheckedChanged = { _, _ -> }
+                onNewsResourcesCheckedChanged = { _, _ -> },
+                navigateToTopic = { }
             )
         }
     }
@@ -469,7 +471,8 @@ fun ForYouScreenLoading() {
                 onTopicCheckedChanged = { _, _ -> },
                 onAuthorCheckedChanged = { _, _ -> },
                 saveFollowedTopics = {},
-                onNewsResourcesCheckedChanged = { _, _ -> }
+                onNewsResourcesCheckedChanged = { _, _ -> },
+                navigateToTopic = { }
             )
         }
     }

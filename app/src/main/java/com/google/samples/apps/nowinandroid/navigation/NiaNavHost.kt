@@ -53,7 +53,7 @@ fun NiaNavHost(
         forYouGraph(
             navigateToTopic = {
                 onNavigateToDestination(
-                    TopicDestination, TopicDestination.createNavigationRoute(it)
+                    ForYouDestination, ForYouDestination.createNavigationRoute(it)
                 )
             },
         )
