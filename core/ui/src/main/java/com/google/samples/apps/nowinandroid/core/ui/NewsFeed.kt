@@ -56,7 +56,7 @@ fun LazyGridScope.newsFeed(
     feedState: NewsFeedUiState,
     showLoadingUIIfLoading: Boolean,
     @StringRes loadingContentDescription: Int,
-    onNewsResourcesCheckedChanged: (String, Boolean) -> Unit
+    onNewsResourcesCheckedChanged: (String, Boolean) -> Unit,
 ) {
     when (feedState) {
         NewsFeedUiState.Loading -> {
@@ -82,7 +82,7 @@ fun LazyGridScope.newsFeed(
                 NewsResourceCardExpanded(
                     newsResource = saveableNewsResource.newsResource,
                     isBookmarked = saveableNewsResource.isSaved,
-                    onTopicClicked = { Log.i("Caren", "Clicked on topic") },
+                    onTopicClicked = { onTopicClicked(it) },
                     onClick = { ContextCompat.startActivity(context, launchResourceIntent, null) },
                     onToggleBookmark = {
                         onNewsResourcesCheckedChanged(
@@ -94,6 +94,10 @@ fun LazyGridScope.newsFeed(
             }
         }
     }
+}
+
+fun onTopicClicked(id: String) {
+    Log.i("Caren", "Topic clicked: $id")
 }
 
 /**

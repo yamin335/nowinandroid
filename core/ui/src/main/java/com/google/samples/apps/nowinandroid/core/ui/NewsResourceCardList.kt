@@ -63,7 +63,7 @@ fun <T> LazyListScope.newsResourceCardItems(
                 }
             },
             modifier = itemModifier,
-            onTopicClicked = { }
+            onTopicClicked = { onTopicClicked(item)}
         )
     },
 )

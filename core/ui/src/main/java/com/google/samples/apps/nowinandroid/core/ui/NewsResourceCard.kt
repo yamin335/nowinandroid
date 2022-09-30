@@ -278,7 +278,7 @@ fun NewsResourceTopics(
         for (topic in topics) {
             NiaTopicTag(
                 followed = true, // ToDo: Check if topic is followed
-                onClick = { onTopicClicked(topic.id) },
+                onClick = { onTopicClicked(topic.name) },
                 text = { Text(text = topic.name.uppercase(Locale.getDefault())) }
             )
         }
