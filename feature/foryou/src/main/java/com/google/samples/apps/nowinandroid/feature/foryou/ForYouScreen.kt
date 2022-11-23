@@ -399,7 +399,11 @@ fun ForYouScreenPopulatedFeed() {
                 onboardingUiState = OnboardingUiState.NotShown,
                 feedState = NewsFeedUiState.Success(
                     feed = previewNewsResources.map {
-                        SaveableNewsResource(it, false)
+                        SaveableNewsResource(
+                            it,
+                            isSaved = false,
+                            followedTopicIds = emptySet()
+                        )
                     }
                 ),
                 onTopicCheckedChanged = { _, _ -> },
@@ -421,7 +425,11 @@ fun ForYouScreenOfflinePopulatedFeed() {
                 onboardingUiState = OnboardingUiState.NotShown,
                 feedState = NewsFeedUiState.Success(
                     feed = previewNewsResources.map {
-                        SaveableNewsResource(it, false)
+                        SaveableNewsResource(
+                            newsResource = it,
+                            isSaved = false,
+                            followedTopicIds = emptySet()
+                        )
                     }
                 ),
                 onTopicCheckedChanged = { _, _ -> },
@@ -446,8 +454,12 @@ fun ForYouScreenTopicSelection() {
                 ),
                 feedState = NewsFeedUiState.Success(
                     feed = previewNewsResources.map {
-                        SaveableNewsResource(it, false)
-                    }
+                        SaveableNewsResource(
+                            newsResource = it,
+                            isSaved = false,
+                            followedTopicIds = emptySet()
+                        )
+                    },
                 ),
                 onTopicCheckedChanged = { _, _ -> },
                 onAuthorCheckedChanged = { _, _ -> },
@@ -486,8 +498,12 @@ fun ForYouScreenPopulatedAndLoading() {
                 onboardingUiState = OnboardingUiState.Loading,
                 feedState = NewsFeedUiState.Success(
                     feed = previewNewsResources.map {
-                        SaveableNewsResource(it, false)
-                    }
+                        SaveableNewsResource(
+                            newsResource = it,
+                            isSaved = false,
+                            followedTopicIds = emptySet()
+                        )
+                    },
                 ),
                 onTopicCheckedChanged = { _, _ -> },
                 onAuthorCheckedChanged = { _, _ -> },

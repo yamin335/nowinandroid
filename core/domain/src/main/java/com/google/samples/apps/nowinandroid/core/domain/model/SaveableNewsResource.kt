@@ -24,4 +24,5 @@ import com.google.samples.apps.nowinandroid.core.model.data.NewsResource
 data class SaveableNewsResource(
     val newsResource: NewsResource,
     val isSaved: Boolean,
+    val followedTopicIds: Set<String>
 )

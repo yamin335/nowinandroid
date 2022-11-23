@@ -57,6 +57,7 @@ fun LazyGridScope.newsFeed(
                 NewsResourceCardExpanded(
                     newsResource = saveableNewsResource.newsResource,
                     isBookmarked = saveableNewsResource.isSaved,
+                    followedTopicIds = saveableNewsResource.followedTopicIds,
                     onClick = { ContextCompat.startActivity(context, launchResourceIntent, null) },
                     onToggleBookmark = {
                         onNewsResourcesCheckedChanged(
@@ -113,8 +114,9 @@ fun NewsFeedContentPreview() {
                 feedState = NewsFeedUiState.Success(
                     previewNewsResources.map {
                         SaveableNewsResource(
-                            it,
-                            false
+                            newsResource = it,
+                            isSaved = false,
+                            followedTopicIds = emptySet()
                         )
                     }
                 ),

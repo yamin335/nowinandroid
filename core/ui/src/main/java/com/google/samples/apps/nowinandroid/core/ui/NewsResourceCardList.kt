@@ -54,6 +54,7 @@ fun <T> LazyListScope.newsResourceCardItems(
         NewsResourceCardExpanded(
             newsResource = newsResource,
             isBookmarked = isBookmarkedMapper(item),
+            followedTopicIds = emptySet(), //TODO
             onToggleBookmark = { onToggleBookmark(item) },
             onClick = {
                 when (onItemClick) {

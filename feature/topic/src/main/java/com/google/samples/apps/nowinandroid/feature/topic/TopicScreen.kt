@@ -257,6 +257,7 @@ fun TopicScreenPopulated() {
                         SaveableNewsResource(
                             newsResource = newsResource,
                             isSaved = index % 2 == 0,
+                            followedTopicIds = emptySet()
                         )
                     }
                 ),

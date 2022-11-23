@@ -81,6 +81,7 @@ import kotlinx.datetime.toJavaInstant
 fun NewsResourceCardExpanded(
     newsResource: NewsResource,
     isBookmarked: Boolean,
+    followedTopicIds: Set<String>,
     onToggleBookmark: () -> Unit,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
@@ -123,7 +124,7 @@ fun NewsResourceCardExpanded(
                     Spacer(modifier = Modifier.height(12.dp))
                     NewsResourceShortDescription(newsResource.content)
                     Spacer(modifier = Modifier.height(12.dp))
-                    NewsResourceTopics(newsResource.topics)
+                    NewsResourceTopics(newsResource.topics, followedTopicIds)
                 }
             }
         }
@@ -267,6 +268,7 @@ fun NewsResourceShortDescription(
 @Composable
 fun NewsResourceTopics(
     topics: List<Topic>,
+    followedTopicIds: Set<String>,
     modifier: Modifier = Modifier
 ) {
     // Store the ID of the Topic which has its "following" menu expanded, if any.
@@ -280,7 +282,7 @@ fun NewsResourceTopics(
         for (topic in topics) {
             NiaTopicTag(
                 expanded = expandedTopicId == topic.id,
-                followed = true, // ToDo: Check if topic is followed
+                followed = followedTopicIds.contains(topic.id), // ToDo: Check if topic is followed
                 onDropMenuToggle = { show ->
                     expandedTopicId = if (show) topic.id else null
                 },
@@ -321,6 +323,7 @@ fun ExpandedNewsResourcePreview() {
             NewsResourceCardExpanded(
                 newsResource = previewNewsResources[0],
                 isBookmarked = true,
+                followedTopicIds = emptySet(),
                 onToggleBookmark = {},
                 onClick = {}
             )

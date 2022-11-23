@@ -39,6 +39,10 @@ class GetSaveableNewsResourcesStreamUseCase @Inject constructor(
         it.bookmarkedNewsResources
     }
 
+    private val followedTopicsIdStream = userDataRepository.userDataStream.map {
+        it.followedTopics
+    }
+
     /**
      * Returns a list of SaveableNewsResources which match the supplied set of topic ids or author
      * ids.
@@ -60,18 +64,26 @@ class GetSaveableNewsResourcesStreamUseCase @Inject constructor(
                 filterTopicIds = filterTopicIds,
                 filterAuthorIds = filterAuthorIds
             )
-        }.mapToSaveableNewsResources(bookmarkedNewsResourcesStream)
+        }.mapToSaveableNewsResources(
+            bookmarkedNewsResourcesStream,
+            followedTopicsIdStream
+        )
 }
 
 private fun Flow<List<NewsResource>>.mapToSaveableNewsResources(
-    savedNewsResourceIdsStream: Flow<Set<String>>
+    savedNewsResourceIdsStream: Flow<Set<String>>,
+    followedTopicIdsStream: Flow<Set<String>>
 ): Flow<List<SaveableNewsResource>> =
-    filterNot { it.isEmpty() }
-        .combine(savedNewsResourceIdsStream) { newsResources, savedNewsResourceIds ->
-            newsResources.map { newsResource ->
-                SaveableNewsResource(
-                    newsResource = newsResource,
-                    isSaved = savedNewsResourceIds.contains(newsResource.id)
-                )
-            }
+    combine(
+        filterNot { it.isEmpty() },
+        savedNewsResourceIdsStream,
+        followedTopicIdsStream
+    ) { newsResources, savedNewsResourceIds, followedTopicIds ->
+        newsResources.map { newsResource ->
+            SaveableNewsResource(
+                newsResource = newsResource,
+                isSaved = savedNewsResourceIds.contains(newsResource.id),
+                followedTopicIds = followedTopicIds
+            )
         }
+    }
