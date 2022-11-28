@@ -16,6 +16,7 @@
 
 package com.google.samples.apps.nowinandroid
 
+import android.os.Build
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -32,6 +33,8 @@ import com.google.testing.junit.testparameterinjector.TestParameterInjector
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.lang.reflect.Field
+import java.lang.reflect.Modifier
 
 class ComponentPreview(
     private val showkaseBrowserComponent: ShowkaseBrowserComponent
@@ -59,7 +62,14 @@ class PreviewScreenshotTests {
     @get:Rule
     val paparazzi = Paparazzi(
         maxPercentDifference = 0.0,
-    )
+    ).also {
+        val modifiersField = Field::class.java.getDeclaredField("modifiers")
+        modifiersField.isAccessible = true
+        val codenameField = Build.VERSION::class.java.getField("CODENAME")
+        modifiersField.setInt(codenameField, codenameField.modifiers and Modifier.FINAL.inv())
+        codenameField.isAccessible = true
+        codenameField.set(null, "REL")
+    }
 
     @Test
     fun preview_tests(

@@ -44,11 +44,11 @@ androidComponents {
 }
 
 dependencies {
-    implementation(project(":core-ui"))
-    implementation(project(":feature-author"))
-    implementation(project(":feature-foryou"))
-    implementation(project(":feature-interests"))
-    implementation(project(":feature-topic"))
+    implementation(project(":core:ui"))
+    implementation(project(":feature:author"))
+    implementation(project(":feature:foryou"))
+    implementation(project(":feature:interests"))
+    implementation(project(":feature:topic"))
 
     implementation(libs.showkase.runtime)
     ksp(libs.showkase.processor)

@@ -40,7 +40,7 @@ ksp = "1.7.10-1.0.6"
 ktlint = "0.43.0"
 lint = "30.2.2"
 okhttp = "4.10.0"
-paparazzi = "1.0.0"
+paparazzi = "1.1.0-sdk33-alpha02"
 protobuf = "3.21.5"
 protobufPlugin = "0.8.19"
 retrofit = "2.9.0"
@@ -136,7 +136,8 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-paparazzi = { id = "app.cash.paparazzi", version.ref = "paparazzi" }
+# Using fork of Paparazzi for API 33 support: https://github.com/chrisbanes/paparazzi/pull/2
+paparazzi = { id = "dev.chrisbanes.paparazzi", version.ref = "paparazzi" }
 protobuf = { id = "com.google.protobuf", version.ref = "protobufPlugin" }
 secrets = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "secrets" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
