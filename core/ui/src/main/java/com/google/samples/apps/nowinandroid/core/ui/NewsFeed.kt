@@ -37,6 +37,7 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.samples.apps.nowinandroid.core.designsystem.theme.NiaTheme
+import com.google.samples.apps.nowinandroid.core.domain.model.FollowableTopic
 import com.google.samples.apps.nowinandroid.core.domain.model.SaveableNewsResource
 import com.google.samples.apps.nowinandroid.core.model.data.previewNewsResources
 
@@ -61,6 +62,7 @@ fun LazyGridScope.newsFeed(
                 NewsResourceCardExpanded(
                     newsResource = saveableNewsResource.newsResource,
                     isBookmarked = saveableNewsResource.isSaved,
+                    // ToDo add list of followed topics
                     onClick = { launchCustomChromeTab(context, resourceUrl, backgroundColor) },
                     onToggleBookmark = {
                         onNewsResourcesCheckedChanged(
@@ -102,6 +104,18 @@ sealed interface NewsFeedUiState {
          */
         val feed: List<SaveableNewsResource>
     ) : NewsFeedUiState
+}
+
+/**
+ * A sealed hierarchy describing the state of the followed topics
+ */
+sealed interface FollowedTopicsState {
+
+    object Loading : FollowedTopicsState
+
+    data class Topics(
+        val topics: List<FollowableTopic>
+    ) : FollowedTopicsState
 }
 
 @Preview

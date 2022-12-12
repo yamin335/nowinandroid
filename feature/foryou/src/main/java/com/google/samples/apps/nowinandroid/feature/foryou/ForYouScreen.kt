@@ -99,12 +99,14 @@ internal fun ForYouRoute(
 ) {
     val onboardingUiState by viewModel.onboardingUiState.collectAsStateWithLifecycle()
     val feedState by viewModel.feedState.collectAsStateWithLifecycle()
+    val followedTopicsState by viewModel.followedTopicsState.collectAsStateWithLifecycle()
     val isSyncing by viewModel.isSyncing.collectAsStateWithLifecycle()
 
     ForYouScreen(
         isSyncing = isSyncing,
         onboardingUiState = onboardingUiState,
         feedState = feedState,
+        followedTopicsState = followedTopicsState,
         onTopicCheckedChanged = viewModel::updateTopicSelection,
         saveFollowedTopics = viewModel::dismissOnboarding,
         onNewsResourcesCheckedChanged = viewModel::updateNewsResourceSaved,
@@ -117,6 +119,7 @@ internal fun ForYouScreen(
     isSyncing: Boolean,
     onboardingUiState: OnboardingUiState,
     feedState: NewsFeedUiState,
+    followedTopicsState:
     onTopicCheckedChanged: (String, Boolean) -> Unit,
     saveFollowedTopics: () -> Unit,
     onNewsResourcesCheckedChanged: (String, Boolean) -> Unit,
@@ -176,6 +179,7 @@ internal fun ForYouScreen(
 
         newsFeed(
             feedState = feedState,
+            // ToDo : add followed topics list
             onNewsResourcesCheckedChanged = onNewsResourcesCheckedChanged,
         )
 

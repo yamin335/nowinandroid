@@ -22,7 +22,9 @@ import com.google.samples.apps.nowinandroid.core.data.repository.UserDataReposit
 import com.google.samples.apps.nowinandroid.core.data.util.SyncStatusMonitor
 import com.google.samples.apps.nowinandroid.core.domain.GetFollowableTopicsUseCase
 import com.google.samples.apps.nowinandroid.core.domain.GetSaveableNewsResourcesUseCase
+import com.google.samples.apps.nowinandroid.core.domain.TopicSortField
 import com.google.samples.apps.nowinandroid.core.domain.model.SaveableNewsResource
+import com.google.samples.apps.nowinandroid.core.ui.FollowedTopicsState
 import com.google.samples.apps.nowinandroid.core.ui.NewsFeedUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -42,7 +44,7 @@ class ForYouViewModel @Inject constructor(
     syncStatusMonitor: SyncStatusMonitor,
     private val userDataRepository: UserDataRepository,
     private val getSaveableNewsResources: GetSaveableNewsResourcesUseCase,
-    getFollowableTopics: GetFollowableTopicsUseCase
+    private val getFollowableTopics: GetFollowableTopicsUseCase
 ) : ViewModel() {
 
     private val shouldShowOnboarding: Flow<Boolean> =
@@ -53,6 +55,15 @@ class ForYouViewModel @Inject constructor(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),
             initialValue = false
+        )
+
+    val followedTopicsState: StateFlow<FollowedTopicsState> =
+        getFollowableTopics().map(
+            FollowedTopicsState::Topics
+        ).stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = FollowedTopicsState.Loading
         )
 
     val feedState: StateFlow<NewsFeedUiState> =
