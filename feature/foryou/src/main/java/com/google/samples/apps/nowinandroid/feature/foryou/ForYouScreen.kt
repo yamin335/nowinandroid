@@ -17,6 +17,7 @@
 package com.google.samples.apps.nowinandroid.feature.foryou
 
 import android.app.Activity
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -97,9 +98,12 @@ internal fun ForYouRoute(
     modifier: Modifier = Modifier,
     viewModel: ForYouViewModel = hiltViewModel()
 ) {
+
     val onboardingUiState by viewModel.onboardingUiState.collectAsStateWithLifecycle()
     val feedState by viewModel.feedState.collectAsStateWithLifecycle()
     val isSyncing by viewModel.isSyncing.collectAsStateWithLifecycle()
+
+    Log.i("Caren", "Executing ForYouRoute: $feedState")
 
     ForYouScreen(
         isSyncing = isSyncing,
@@ -124,6 +128,8 @@ internal fun ForYouScreen(
 ) {
     val isOnboardingLoading = onboardingUiState is OnboardingUiState.Loading
     val isFeedLoading = feedState is NewsFeedUiState.Loading
+
+    Log.i("Caren", "Recreating ForYouScreen")
 
     // Workaround to call Activity.reportFullyDrawn from Jetpack Compose.
     // This code should be called when the UI is ready for use

@@ -18,6 +18,7 @@ package com.google.samples.apps.nowinandroid.core.ui
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import androidx.annotation.ColorInt
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
@@ -51,6 +52,7 @@ fun LazyGridScope.newsFeed(
     when (feedState) {
         NewsFeedUiState.Loading -> Unit
         is NewsFeedUiState.Success -> {
+            Log.i("CarenNewsFeed", "Recreating news feed")
             items(feedState.feed, key = { it.newsResource.id }) { saveableNewsResource ->
                 val resourceUrl by remember {
                     mutableStateOf(Uri.parse(saveableNewsResource.newsResource.url))
