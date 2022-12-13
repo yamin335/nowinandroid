@@ -55,17 +55,20 @@ fun LazyGridScope.newsFeed(
                 val resourceUrl by remember {
                     mutableStateOf(Uri.parse(saveableNewsResource.newsResource.url))
                 }
+                val savedResource by remember {
+                    mutableStateOf(saveableNewsResource.isSaved)
+                }
                 val context = LocalContext.current
                 val backgroundColor = MaterialTheme.colorScheme.background.toArgb()
 
                 NewsResourceCardExpanded(
                     newsResource = saveableNewsResource.newsResource,
-                    isBookmarked = saveableNewsResource.isSaved,
+                    isBookmarked = savedResource,
                     onClick = { launchCustomChromeTab(context, resourceUrl, backgroundColor) },
                     onToggleBookmark = {
                         onNewsResourcesCheckedChanged(
                             saveableNewsResource.newsResource.id,
-                            !saveableNewsResource.isSaved
+                            !savedResource
                         )
                     }
                 )
