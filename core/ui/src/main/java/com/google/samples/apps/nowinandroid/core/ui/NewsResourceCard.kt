@@ -155,8 +155,11 @@ fun BookmarkButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+
+    val bookmarkChecked = remember { mutableStateOf(isBookmarked) }
+
     NiaToggleButton(
-        checked = isBookmarked,
+        checked = bookmarkChecked.value,
         onCheckedChange = { onClick() },
         modifier = modifier,
         icon = {
