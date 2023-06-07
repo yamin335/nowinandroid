@@ -38,21 +38,24 @@ class ScrollForYouFeedBenchmark {
     @Test
     fun scrollFeedCompilationBaselineProfile() = scrollFeed(CompilationMode.Partial())
 
+    @Test
+    fun scrollFeedCompilationFull() = scrollFeed(CompilationMode.Full())
+
     private fun scrollFeed(compilationMode: CompilationMode) = benchmarkRule.measureRepeated(
         packageName = PACKAGE_NAME,
         metrics = listOf(FrameTimingMetric()),
         compilationMode = compilationMode,
         iterations = 10,
-        startupMode = StartupMode.COLD,
+        startupMode = StartupMode.WARM,
         setupBlock = {
             // Start the app
             pressHome()
             startActivityAndWait()
             allowNotifications()
+            forYouWaitForContent()
+            forYouSelectTopics()
         },
     ) {
-        forYouWaitForContent()
-        forYouSelectTopics()
         forYouScrollFeedDownUp()
     }
 }
