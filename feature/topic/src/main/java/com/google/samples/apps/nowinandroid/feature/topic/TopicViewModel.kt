@@ -32,48 +32,67 @@ import com.google.samples.apps.nowinandroid.core.result.asResult
 import com.google.samples.apps.nowinandroid.feature.topic.navigation.TopicArgs
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class TopicViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle,
     stringDecoder: StringDecoder,
     private val userDataRepository: UserDataRepository,
     topicsRepository: TopicsRepository,
     userNewsResourceRepository: UserNewsResourceRepository,
 ) : ViewModel() {
 
-    private val topicArgs: TopicArgs = TopicArgs(savedStateHandle, stringDecoder)
+    private val _topicId: MutableStateFlow<String?> = MutableStateFlow(null)
+    private val topicId: SharedFlow<String> = _topicId.filterNotNull().shareIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+    )
 
-    val topicUiState: StateFlow<TopicUiState> = topicUiState(
-        topicId = topicArgs.topicId,
-        userDataRepository = userDataRepository,
-        topicsRepository = topicsRepository,
-    ).stateIn(
+    val topicUiState: StateFlow<TopicUiState> = topicId.flatMapLatest { id ->
+        topicUiState(
+            topicId = id,
+            userDataRepository = userDataRepository,
+            topicsRepository = topicsRepository,
+        )
+    }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
         initialValue = TopicUiState.Loading,
     )
 
-    val newUiState: StateFlow<NewsUiState> = newsUiState(
-        topicId = topicArgs.topicId,
-        userDataRepository = userDataRepository,
-        userNewsResourceRepository = userNewsResourceRepository,
-    ).stateIn(
+    val newUiState: StateFlow<NewsUiState> = topicId.flatMapLatest { id ->
+        newsUiState(
+            topicId = id,
+            userDataRepository = userDataRepository,
+            userNewsResourceRepository = userNewsResourceRepository,
+        )
+    }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
         initialValue = NewsUiState.Loading,
     )
 
+    fun onTopicIdChange(topicId: String) {
+        viewModelScope.launch {
+            _topicId.value = topicId
+        }
+    }
+
     fun followTopicToggle(followed: Boolean) {
         viewModelScope.launch {
-            userDataRepository.toggleFollowedTopicId(topicArgs.topicId, followed)
+            userDataRepository.toggleFollowedTopicId(topicId.first(), followed)
         }
     }
 

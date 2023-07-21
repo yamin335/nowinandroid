@@ -73,6 +73,7 @@ dependencies {
     implementation(project(":feature:interests"))
     implementation(project(":feature:topic"))
 
+    implementation("androidx.compose.material3:material3-adaptive-android:1.0.0-SNAPSHOT")
     implementation(libs.accompanist.systemuicontroller)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.appcompat)

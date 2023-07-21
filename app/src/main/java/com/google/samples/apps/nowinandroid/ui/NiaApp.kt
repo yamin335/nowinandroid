@@ -16,58 +16,50 @@
 
 package com.google.samples.apps.nowinandroid.ui
 
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.consumeWindowInsets
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawing
-import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
+import androidx.compose.material3.adaptive.ListDetailPaneScaffold
+import androidx.compose.material3.adaptive.ListDetailPaneScaffoldRole
+import androidx.compose.material3.adaptive.rememberListDetailPaneScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavType
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
+import androidx.compose.ui.unit.dp
 import com.google.samples.apps.nowinandroid.feature.interests.InterestsRoute
-import com.google.samples.apps.nowinandroid.feature.interests.navigation.interestsRoute
 import com.google.samples.apps.nowinandroid.feature.topic.TopicRoute
-import com.google.samples.apps.nowinandroid.feature.topic.navigation.navigateToTopic
-import com.google.samples.apps.nowinandroid.feature.topic.navigation.topicIdArg
 
 @OptIn(
-    ExperimentalLayoutApi::class,
+    ExperimentalMaterial3AdaptiveApi::class,
 )
 @Composable
 fun NiaApp() {
-    Scaffold { padding ->
-        val navController = rememberNavController()
-        NavHost(
-            navController = navController,
-            startDestination = interestsRoute,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding)
-                .consumeWindowInsets(padding)
-                .windowInsetsPadding(WindowInsets.safeDrawing),
-        ) {
-            composable(route = interestsRoute) {
-                InterestsRoute(onTopicClick = navController::navigateToTopic)
-            }
-            composable(
-                route = "topic_route/{$topicIdArg}",
-                arguments = listOf(
-                    navArgument(topicIdArg) { type = NavType.StringType },
-                ),
-            ) {
+    val layoutState = rememberListDetailPaneScaffoldState(
+        initialFocus = ListDetailPaneScaffoldRole.List
+    )
+    var selectedTopicId: String? by remember { mutableStateOf(null) }
+    ListDetailPaneScaffold(
+        layoutState = layoutState,
+        listPane = {
+            InterestsRoute(onTopicClick = { topicId ->
+                selectedTopicId = topicId
+                layoutState.navigateTo(ListDetailPaneScaffoldRole.Detail)
+            })
+        },
+        detailPane = {
+            selectedTopicId?.let {
                 TopicRoute(
-                    onBackClick = navController::popBackStack,
-                    onTopicClick = navController::navigateToTopic
+                    topicId = it,
+                    onTopicClick = {},
+                    onBackClick = {
+                        layoutState.navigateBack(true)
+                        layoutState.navigateTo(ListDetailPaneScaffoldRole.List)
+                    },
+                    //modifier = Modifier.preferredWidth(400.dp)
                 )
             }
-        }
-    }
+        },
+    )
 }
 
