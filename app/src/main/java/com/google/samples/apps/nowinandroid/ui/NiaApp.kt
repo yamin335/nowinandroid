@@ -39,6 +39,7 @@ fun NiaApp() {
             var selectedTopicId: String? by remember { mutableStateOf(null) }
             var isTopicListVisible: Boolean by remember { mutableStateOf(false) }
 
+            // List View
             InterestsRoute(
                 onTopicClick = { topicId ->
                     selectedTopicId = topicId
@@ -46,6 +47,7 @@ fun NiaApp() {
                 },
             )
 
+            // Details View
             AnimatedVisibility(
                 visible = isTopicListVisible,
                 enter = slideInHorizontally(),
