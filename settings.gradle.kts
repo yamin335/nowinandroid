@@ -28,6 +28,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven(url = "https://androidx.dev/snapshots/builds/10558096/artifacts/repository")
     }
 }
 rootProject.name = "nowinandroid"
