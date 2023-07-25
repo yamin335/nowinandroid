@@ -36,6 +36,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -61,11 +62,16 @@ import com.google.samples.apps.nowinandroid.feature.topic.R.string
 
 @Composable
 fun TopicRoute(
+    topicId: String,
     onBackClick: () -> Unit,
     onTopicClick: (String) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: TopicViewModel = hiltViewModel(),
 ) {
+    LaunchedEffect(key1 = topicId) {
+        viewModel.setTopicId(topicId)
+    }
+
     val topicUiState: TopicUiState by viewModel.topicUiState.collectAsStateWithLifecycle()
     val newsUiState: NewsUiState by viewModel.newUiState.collectAsStateWithLifecycle()
 
@@ -100,9 +106,6 @@ internal fun TopicScreen(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        item {
-            Spacer(Modifier.windowInsetsTopHeight(WindowInsets.safeDrawing))
-        }
         when (topicUiState) {
             TopicUiState.Loading -> item {
                 NiaLoadingWheel(
