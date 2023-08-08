@@ -28,9 +28,10 @@ fun MacrobenchmarkScope.forYouWaitForContent() {
     device.wait(Until.gone(By.res("loadingWheel")), 5_000)
     // Sometimes, the loading wheel is gone, but the content is not loaded yet
     // So we'll wait here for topics to be sure
-    val obj = device.findObject(By.res("forYou:topicSelection"))
-    // Timeout here is quite big, because sometimes data loading takes a long time!
-    obj.wait(untilHasChildren(), 60_000)
+    device.findObject(By.res("forYou:topicSelection"))?.run {
+        // Timeout here is quite big, because sometimes data loading takes a long time!
+        wait(untilHasChildren(), 30_000)
+    }
 }
 
 /**
